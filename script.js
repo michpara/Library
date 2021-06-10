@@ -23,7 +23,7 @@ function addBookToLibrary(book) {
 function displayBooks(){
 	let div = document.getElementById("books");
 	for(let i = 0; i < myLibrary.length; i++){
-  	div.innerHTML += myLibrary[i].info() + "<br /> <br />";
+  	div.innerHTML += (i+1) + ". " + myLibrary[i].info() + "<br /> <br />";
   }
 }
 
@@ -48,12 +48,37 @@ function newBook(){
   numOfPages.placeholder = "# of pages";
   numOfPages.id = "numOfPages";
 
-  //checkbox for read input
+  var read = document.createElement('input');
+  read.type = "checkbox";
+  read.name = "read";
+  read.id = "read";
+   
+  var label = document.createElement('label');
+  label.htmlFor = "read";
+  label.appendChild(document.createTextNode('Have you read this book?: '));
 
-  //submit button
-  
+  var submit = document.createElement("button");
+  submit.innerHTML = "Submit";
+  submit.id = "submit";
+  submit.type = "button";
+
   let form = document.getElementById("form");
   form.appendChild(title);
   form.appendChild(author);
   form.appendChild(numOfPages);
+  form.innerHTML += "<br />";
+  form.appendChild(label);
+  form.appendChild(read);
+  form.innerHTML += "<br />";
+  form.appendChild(submit);
+
+  document.getElementById('submit').onclick = function(){
+    let title = document.getElementById("title").value;
+    let author = document.getElementById("author").value;
+    let numOfPages = document.getElementById("numOfPages").value;
+    let read = document.getElementById("read").checked;
+    let book = new Book(title, author, numOfPages, read);
+    addBookToLibrary(book);
+    form.reset();
+  }
 }
